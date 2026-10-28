@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f3f5ef">
+  <title>CQS | Quiz Room</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="demo-data.js"></script>
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="wordmark" href="./" aria-label="CQS home"><span class="mark">C</span><span>CQS <small>QUIZ ROOM</small></span></a>
+    <div class="topbar-meta"><span class="live-dot" aria-hidden="true"></span><span id="mode-label">DEMO SESSION</span></div>
+  </header>
+
+  <main>
+    <section class="intro" aria-labelledby="page-title">
+      <p class="eyebrow">COLLEGE QUIZ SYSTEM <span> / </span> GENERAL KNOWLEDGE</p>
+      <div class="intro-line">
+        <h1 id="page-title">A little test<br>of what you know.</h1>
+        <p class="intro-note">15 questions in the pool<br>10 questions per round</p>
+      </div>
+    </section>
+
+    <div id="demo-banner" class="notice notice-demo" role="status">Waking up server, using sample data</div>
+    <div id="ready-notice" class="notice notice-ready" role="status" hidden>
+      <span>Server ready - restart quiz with live data</span>
+      <button id="restart-live" class="text-button" type="button">Restart quiz <span aria-hidden="true">↗</span></button>
+    </div>
+
+    <section class="quiz-layout" aria-label="Quiz">
+      <div class="quiz-main">
+        <div class="quiz-heading">
+          <div>
+            <p class="eyebrow">YOUR ROUND</p>
+            <h2>Choose your answers</h2>
+          </div>
+          <div class="timer-wrap" aria-live="off">
+            <span class="timer-label">TIME LEFT</span>
+            <time id="timer" class="timer" datetime="PT5M">05:00</time>
+          </div>
+        </div>
+
+        <form id="quiz-form">
+          <label class="name-label" for="student-name">YOUR NAME</label>
+          <input id="student-name" name="studentName" type="text" maxlength="80" autocomplete="name" placeholder="Enter your name" required>
+          <div id="question-list" class="question-list" aria-live="polite"></div>
+          <div class="submit-row">
+            <p id="form-message" class="form-message" role="status">Your five-minute round starts now.</p>
+            <button id="submit-button" class="submit-button" type="submit">Submit round <span aria-hidden="true">↗</span></button>
+          </div>
+        </form>
+
+        <section id="score-panel" class="score-panel" aria-live="polite" hidden>
+          <p class="eyebrow">ROUND COMPLETE</p>
+          <div class="score-line"><strong id="score-value">0 / 10</strong><span id="score-percent">0%</span></div>
+          <p id="score-copy"></p>
+          <ol id="feedback-list" class="feedback-list"></ol>
+        </section>
+      </div>
+
+      <aside class="results-panel" aria-labelledby="results-title">
+        <div class="results-heading"><div><p class="eyebrow">RECENT ATTEMPTS</p><h2 id="results-title">Results</h2></div><span class="result-count" id="result-count">0</span></div>
+        <div class="table-scroll">
+          <table>
+            <thead><tr><th>STUDENT</th><th>SCORE</th><th>DATE</th></tr></thead>
+            <tbody id="results-body"><tr><td class="empty-state" colspan="3">No results yet</td></tr></tbody>
+          </table>
+        </div>
+      </aside>
+    </section>
+  </main>
+
+  <footer><span>CQS <span class="footer-dot">·</span> QUIZ MANAGEMENT SYSTEM</span><span>GENERAL KNOWLEDGE <span class="footer-dot">·</span> JAVA</span></footer>
+</body>
+</html>
