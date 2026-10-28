@@ -39,6 +39,16 @@ Run the test suite and package the application:
 mvn -B clean package
 ```
 
+## Desktop Version
+
+The optional Swing client uses the same SQLite file and quiz evaluation service. Launch it in a graphical Java 17 environment with:
+
+```sh
+mvn -q compile exec:java -Dexec.mainClass=com.example.quiz.desktop.QuizApp
+```
+
+Set `DB_PATH` to use a different database file. The desktop UI is compiled by CI but is not launched in the headless Codespace.
+
 ## API Endpoints
 
 | Method | Endpoint | Purpose |
