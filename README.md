@@ -90,7 +90,7 @@ Submit example:
 3. Select branch **main**, folder **/docs**, then tap **Save**.
 4. After the deployment completes, open `https://kelvinmoyo.github.io/cqs/`.
 
-Live links: [Quiz frontend](https://kelvinmoyo.github.io/cqs/) · [API Swagger UI](https://your-render-service.onrender.com/swagger-ui.html) (replace with the URL assigned by Render)
+Live links: [Quiz frontend](https://kelvinmoyo.github.io/cqs/) · [API Swagger UI](https://cqs.onrender.com/swagger-ui.html)
 
 The first request to Render's free tier can take 30–60 seconds while the service starts. The frontend begins in Demo mode with sample questions and switches to live data when the API responds. SQLite storage on Render's free tier is ephemeral; saved results reset after a restart or redeploy.
 

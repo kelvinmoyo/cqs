@@ -1,4 +1,4 @@
-const API_BASE_URL = "https://your-render-service.onrender.com";
+const API_BASE_URL = "https://cqs.onrender.com";
 const QUIZ_SECONDS = 5 * 60;
 const QUESTION_COUNT = 10;
 const OPTION_KEYS = ["A", "B", "C", "D"];
