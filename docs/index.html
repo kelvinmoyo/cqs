@@ -3,7 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#f3f5ef">
+  <meta name="theme-color" content="#f4efe3">
+  <meta name="description" content="A simple timed quiz paper with sample and live questions.">
   <title>CQS | Quiz Room</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -41,18 +42,30 @@
             <h2>Choose your answers</h2>
           </div>
           <div class="timer-wrap" aria-live="off">
-            <span class="timer-label">TIME LEFT</span>
+            <span id="timer-label" class="timer-label">TIME ALLOWED</span>
             <time id="timer" class="timer" datetime="PT5M">05:00</time>
           </div>
         </div>
 
-        <form id="quiz-form">
+        <section id="cover-sheet" class="cover-sheet" aria-labelledby="cover-title">
+          <h3 id="cover-title">QUIZ MANAGEMENT SYSTEM</h3>
           <label class="name-label" for="student-name">YOUR NAME</label>
-          <input id="student-name" name="studentName" type="text" maxlength="80" autocomplete="name" placeholder="Enter your name" required>
+          <input id="student-name" name="studentName" type="text" minlength="1" maxlength="50" autocomplete="name" required>
+          <p class="cover-date">Date: <time id="paper-date"></time></p>
+          <p class="cover-facts">Time allowed: 5 minutes · Questions: 10 · Marks: 10</p>
+          <ul class="exam-instructions"><li>Answer all questions.</li><li>Unanswered questions score zero.</li></ul>
+          <button id="begin-button" class="submit-button" type="button">Begin paper</button>
+        </section>
+
+        <form id="quiz-form" hidden>
+          <div class="progress-line"><span id="progress-count">Answered 0 of 10</span><span id="progress-tally" aria-hidden="true"></span></div>
           <div id="question-list" class="question-list" aria-live="polite"></div>
           <div class="submit-row">
-            <p id="form-message" class="form-message" role="status">Your five-minute round starts now.</p>
-            <button id="submit-button" class="submit-button" type="submit">Submit round <span aria-hidden="true">↗</span></button>
+            <p id="form-message" class="form-message" role="status"></p>
+            <div class="form-actions">
+              <button id="retry-button" class="text-button" type="button" hidden>Retry</button>
+              <button id="submit-button" class="submit-button" type="submit">Submit paper</button>
+            </div>
           </div>
         </form>
 
@@ -61,6 +74,7 @@
           <div class="score-line"><strong id="score-value">0 / 10</strong><span id="score-percent">0%</span></div>
           <p id="score-copy"></p>
           <ol id="feedback-list" class="feedback-list"></ol>
+          <button id="new-paper-button" class="submit-button" type="button" hidden>New paper</button>
         </section>
       </div>
 
