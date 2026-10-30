@@ -12,6 +12,7 @@ const introPanel = document.querySelector("#cover-sheet");
 const beginButton = document.querySelector("#begin-button");
 const timerElement = document.querySelector("#timer");
 const timerLabel = document.querySelector("#timer-label");
+const timerAnnouncement = document.querySelector("#timer-announcement");
 const messageElement = document.querySelector("#form-message");
 const submitButton = document.querySelector("#submit-button");
 const retryButton = document.querySelector("#retry-button");
@@ -30,6 +31,9 @@ let state = "intro";
 let deadline = null;
 let startedAt = null;
 let elapsedSeconds = 0;
+let previousRemaining = QUIZ_SECONDS;
+let submissionAnswers = null;
+let submissionAutomatic = false;
 let timerHandle = null;
 let healthPollHandle = null;
 let liveLoadInProgress = false;
@@ -90,6 +94,8 @@ function startTimer() {
   stopTimer();
   startedAt = Date.now();
   deadline = startedAt + QUIZ_SECONDS * 1000;
+  previousRemaining = QUIZ_SECONDS;
+  timerAnnouncement.textContent = "";
   updateTimer();
   timerHandle = setInterval(updateTimer, 1000);
 }
@@ -106,8 +112,11 @@ function updateTimer() {
   timerElement.textContent = formatTime(secondsRemaining);
   timerElement.dateTime = `PT${Math.floor(secondsRemaining / 60)}M${secondsRemaining % 60}S`;
   timerElement.classList.toggle("is-low", secondsRemaining <= 60);
-  const announced = [60, 30, 10].find((threshold) => secondsRemaining === threshold);
-  if (announced) timerElement.setAttribute("aria-label", `${announced} seconds remaining`);
+  const crossedThresholds = [60, 30, 10].filter((threshold) => previousRemaining > threshold && secondsRemaining <= threshold);
+  if (crossedThresholds.length) {
+    timerAnnouncement.textContent = crossedThresholds.map((threshold) => threshold === 60 ? "1 minute remaining" : `${threshold} seconds remaining`).join(". ");
+  }
+  previousRemaining = secondsRemaining;
   if (secondsRemaining === 0) {
     messageElement.textContent = "Time is up. Your answers are being submitted.";
     submitQuiz(true);
@@ -150,6 +159,9 @@ function resetQuiz(nextQuestions, source) {
   deadline = null;
   startedAt = null;
   elapsedSeconds = 0;
+  previousRemaining = QUIZ_SECONDS;
+  submissionAnswers = null;
+  submissionAutomatic = false;
   form.reset();
   nameInput.value = "";
   form.hidden = true;
@@ -277,13 +289,15 @@ async function sendSubmission(automatic, answers) {
 }
 
 async function submitQuiz(automatic = false) {
-  if (state !== "running") return;
   stopTimer();
+  if (state !== "running") return;
   state = "submitting";
   submitButton.disabled = true;
   retryButton.hidden = true;
   freezeTimer();
-  await sendSubmission(automatic, selectedAnswers());
+  submissionAutomatic = automatic;
+  submissionAnswers = selectedAnswers();
+  await sendSubmission(submissionAutomatic, submissionAnswers);
 }
 
 async function retrySubmission() {
@@ -291,7 +305,7 @@ async function retrySubmission() {
   state = "submitting";
   retryButton.hidden = true;
   messageElement.textContent = "Retrying submission.";
-  await sendSubmission(false, selectedAnswers());
+  await sendSubmission(submissionAutomatic, submissionAnswers);
 }
 
 async function startLiveQuiz() {
