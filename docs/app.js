@@ -1,4 +1,4 @@
-const API_BASE_URL = "https://cqs.onrender.com";
+const API_BASE_URL = "";
 const DEFAULT_QUIZ_SECONDS = 5 * 60;
 const QUESTION_COUNT = 10;
 const OPTION_KEYS = ["A", "B", "C", "D"];
@@ -336,6 +336,7 @@ async function beginNewPaper() {
 }
 
 async function pollHealth() {
+  if (!API_BASE_URL) return;
   try {
     const response = await fetch(`${API_BASE_URL}/health`, { cache: "no-store" });
     if (!response.ok) return;

@@ -21,7 +21,7 @@ A course quiz application with a Java 17 Spring Boot REST API, SQLite storage, a
 
 ## Tech
 
-Spring Boot REST API, Spring JDBC (`JdbcTemplate`), SQLite, Docker, GitHub Actions, GitHub Pages frontend, Swagger/OpenAPI.
+Spring Boot REST API, Spring JDBC (`JdbcTemplate`), SQLite, Docker, GitHub Actions, Vercel frontend, Swagger/OpenAPI.
 
 ## Run Locally
 
@@ -76,23 +76,12 @@ Submit example:
 
 ## Deployment
 
-### Render API
+### Vercel demo
 
-1. Create a new Render Web Service from this GitHub repository.
-2. Select **Docker** as the runtime and the free instance plan.
-3. Deploy the service; the included Dockerfile listens on Render's `PORT`.
-4. Copy the generated service URL into `API_BASE_URL` at the top of `docs/app.js`, commit, and push.
+1. Import this GitHub repository in Vercel and deploy from the repository root. `vercel.json` serves the static site from `docs/`.
+2. Open the Vercel deployment URL. The quiz runs with bundled sample questions and keeps recent results in page memory; it does not require a separate API service.
 
-### GitHub Pages frontend
-
-1. In the repository, open **Settings** → **Pages**.
-2. Under **Build and deployment**, choose **Deploy from a branch**.
-3. Select branch **main**, folder **/docs**, then tap **Save**.
-4. After the deployment completes, open `https://kelvinmoyo.github.io/cqs/`.
-
-Live links: [Quiz frontend](https://kelvinmoyo.github.io/cqs/) · [API Swagger UI](https://cqs.onrender.com/swagger-ui.html)
-
-The first request to Render's free tier can take 30–60 seconds while the service starts. The frontend begins in Demo mode with sample questions and switches to live data when the API responds. SQLite storage on Render's free tier is ephemeral; saved results reset after a restart or redeploy.
+Vercel does not run this Java Spring Boot API. To use live questions and shared, persistent results, deploy the API and database separately, then set `API_BASE_URL` in `docs/app.js` to that service. The included SQLite database is local storage and is not suitable for persistent serverless deployment.
 
 ## Future Enhancements
 
